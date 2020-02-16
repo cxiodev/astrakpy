@@ -25,8 +25,11 @@ class AstrakPy:
             ) as rq:
                 try:
                     resp = await rq.json()
-                    if resp["code"] < 0:
-                        raise AstrakError(f"[{resp['code']}] {resp['response']}")
+                    try:
+                        if resp["code"] < 0:
+                            raise AstrakError(f"[{resp['code']}] {resp['response']}")
+                    except KeyError:
+                        return resp
                 except ClientError:
                     raise AstrakServerSideError(
                         "Something was wrong... Seems like server-side error."

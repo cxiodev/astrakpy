@@ -37,7 +37,7 @@ class LongPoll:
             for handler in self.handlers:
                 if isinstance(handler, AnyMessageHandler):  # noqa
                     await self.handle_any_message(resp, handler)
-                    Logging.info(f"Handling new message from {resp['event']['from_id']} (handler {handler.__name__})")
+                    Logging.info(f"Handling new message from user id{resp['event']['from_id']} (handler {handler.on_event_void.__name__})")
                 elif handler.react_on_type == resp["type"]:
                     await self.types[resp["type"]](resp, handler)
 
