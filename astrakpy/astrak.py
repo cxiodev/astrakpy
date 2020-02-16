@@ -23,15 +23,13 @@ class AstrakPy:
             ) as rq:
                 try:
                     resp = await rq.json()
-                    try:
-                        if resp["code"] < 0:
-                            raise AstrakError(f"[{resp['code']}] {resp['response']}")
-                    except KeyError:
-                        return resp
+                    if resp["code"] < 0:
+                        raise AstrakError(f"[{resp['code']}] {resp['response']}")
                 except ClientError:
                     raise AstrakServerSideError(
                         "Something was wrong... Seems like server-side error."
                     )
+        return resp
 
     async def auth(self):
         if self.login is None:
