@@ -1,6 +1,9 @@
+import asyncio
+
 from astrakpy.longpoll.models import BaseMessageHandler, AnyMessageHandler
 from astrakpy.exceptions import AstrakServerSideError
 from astrakpy.models.message import Message
+from astrakpy.logging import Logging
 
 import typing
 
@@ -21,6 +24,11 @@ class LongPoll:
         self.handlers.append(AnyMessageHandler(react))
 
     async def _run_polling(self):
+        if self.app.token is None:
+            Logging.warning("Token was None. Authorizating...")
+            await self.app.auth()
+
+        Logging.info("Polling started.")
         while True:
             try:
                 resp = await self.app.api_method("events/polling")
@@ -29,6 +37,7 @@ class LongPoll:
             for handler in self.handlers:
                 if isinstance(handler, AnyMessageHandler):  # noqa
                     await self.handle_any_message(resp, handler)
+                    Logging.info(f"Handling new message from {resp['event']['from_id']} (handler {handler.__name__})")
                 elif handler.react_on_type == resp["type"]:
                     await self.types[resp["type"]](resp, handler)
 
