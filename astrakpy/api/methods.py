@@ -1,10 +1,10 @@
-from astrakpy.astrak import AstrakPy
-from astrakpy.api.models import UserAuthModel, TokenValidatorModel
+import typing
+from astrakpy.api.models import UserAuthModel, TokenValidatorModel, MessageModel, DialogModel, DialogMessageModel
 
 
 class Users:
-    def __init__(self, app: AstrakPy):
-        self.app: AstrakPy = app
+    def __init__(self, app):
+        self.app = app
         self.method = "users/"
 
     async def register(self, username, password) -> UserAuthModel:
@@ -45,17 +45,38 @@ class Users:
                     self.method + "check",
                     params={
                         "token": token
-                    },
-                    fill_token=False  # DO NOT REMOVE
+                    }
                 )
             )
         )
 
 
-class Messages:  # TODO: Complete...
-    def __init__(self, app: AstrakPy):
-        self.app: AstrakPy = app
+class Messages:
+    def __init__(self, app):
+        self.app = app
         self.method = "messages/"
 
-    async def send(self, text, to):
-        pass
+    async def send(self, text, to) -> MessageModel:
+        return MessageModel(
+            **(
+                await self.app.api_method(
+                    self.method + "send",
+                    params={
+                        "text": text,
+                        "to": to
+                    }
+                )
+            )
+        )
+
+    async def dialogs(self) -> typing.List[DialogModel]:
+        dialogs: typing.List[DialogModel] = []
+        for dialog in (await self.app.api_method(self.method + "dialogs")):
+            dialogs.append(DialogModel(**dialog))
+        return dialogs
+
+    async def dialog(self, id: int) -> typing.List[DialogMessageModel]:
+        messages: typing.List[DialogMessageModel] = []
+        for message in (await self.app.api_method(self.method + "dialog", params={"id": id})):
+            messages.append(DialogMessageModel(**message))
+        return messages

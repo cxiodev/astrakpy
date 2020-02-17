@@ -1,5 +1,5 @@
 """AstrakPy core. Everything is based on this module."""
-
+from astrakpy.api.api import API
 from astrakpy.exceptions import AstrakError, AstrakServerSideError
 from astrakpy.logging import Logging
 from astrakpy.longpoll.longpoll import LongPoll
@@ -57,6 +57,11 @@ class AstrakPy:
                 "users/login", {"username": self.login, "password": self.password}, fill_token=False
             )
         )["token"]
+
+    def get_api(self):
+        api = API(self)
+        API.set_current(api)
+        return api
 
     def get_longpoll(self):
         return LongPoll(self)

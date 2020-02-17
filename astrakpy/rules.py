@@ -14,15 +14,26 @@ class AbstractRule(ABC):
 class TextRule(AbstractRule):
     title = "text"
 
-    async def check(self, message: Message, text: str) -> bool:
+    async def check(self, message: Message, text: typing.AnyStr) -> bool:
         return message.text.lower() == text
 
 
 class TextContainsRule(AbstractRule):
     title = "text_contains"
 
-    async def check(self, message: Message, text: typing.Any) -> bool:
-        return text in [word.lower() for word in message.text.split()]
+    async def check(self, message: Message, text: typing.AnyStr) -> bool:
+        return text in [word.lower() for word in message.text]
 
 
-standart_rules = {TextRule.title: TextRule, TextContainsRule.title: TextContainsRule}
+class TextStarswithRule(AbstractRule):
+    title = "startswith"
+
+    async def check(self, message: Message, text: typing.AnyStr) -> bool:
+        return message.text.startswith(text)
+
+
+standart_rules = {
+    TextRule.title: TextRule,
+    TextContainsRule.title: TextContainsRule,
+    TextStarswithRule.title: TextStarswithRule
+}
