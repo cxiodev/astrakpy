@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
-
-import typing
-
 from astrakpy.models.message import Message
+import typing
 
 
 class AbstractRule(ABC):
