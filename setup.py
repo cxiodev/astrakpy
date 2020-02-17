@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/triedgriefdev/astrakpy",
     packages=["astrakpy"],
     install_requires=[
-        'pydantic;aiohttp;ujson;colorama'
+        'pydantic;aiohttp;ujson;colorama;contextvars'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
