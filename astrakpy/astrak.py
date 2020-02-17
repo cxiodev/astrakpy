@@ -1,3 +1,5 @@
+"""AstrakPy core. Everything is based on this module."""
+
 from astrakpy.exceptions import AstrakError, AstrakServerSideError
 from astrakpy.logging import Logging
 from astrakpy.longpoll.longpoll import LongPoll
@@ -24,7 +26,9 @@ class AstrakPy:
             if self.token is None:
                 Logging.warning("You wasn`t logged in! Logging...")
                 await self.auth()
+                Logging.info("Logged in.")
             params.update({"token": self.token})
+
         async with ClientSession(json_serialize=ujson.dumps) as client:
             async with client.post(
                 self.url + method, data=params

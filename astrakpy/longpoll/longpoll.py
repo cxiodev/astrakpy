@@ -50,7 +50,7 @@ class LongPoll:
             try:
                 event = await self.app.api_method("events/polling")
             except AstrakServerSideError:
-                Logging.warning("Server side error happend while polling, refreshing...")
+                Logging.warning("Polling timeout, refreshing...")
                 continue
             Logging.info("New event - " + str(event))
             yield event
