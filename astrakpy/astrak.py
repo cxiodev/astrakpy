@@ -1,8 +1,11 @@
 from astrakpy.exceptions import AstrakError, AstrakServerSideError
+from astrakpy.logging import Logging
 from astrakpy.longpoll.longpoll import LongPoll
 from aiohttp import ClientSession, ClientError
 import asyncio
 import ujson
+
+from astrakpy.task_manager import TaskManager
 
 
 class AstrakPy:
@@ -18,6 +21,9 @@ class AstrakPy:
             params = {}
 
         if fill_token:
+            if self.token is None:
+                Logging.warning("You wasn`t logged in! Logging...")
+                await self.auth()
             params.update({"token": self.token})
         async with ClientSession(json_serialize=ujson.dumps) as client:
             async with client.post(
@@ -50,3 +56,6 @@ class AstrakPy:
 
     def get_longpoll(self):
         return LongPoll(self)
+
+    def get_task_manager(self):
+        return TaskManager(self)
