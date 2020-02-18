@@ -1,1 +1,1 @@
-from .methods import Users, Messages
+from .api import API

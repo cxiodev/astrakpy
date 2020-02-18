@@ -1,5 +1,5 @@
 """AstrakPy core. Everything is based on this module."""
-from astrakpy.api.api import API
+from astrakpy.api import API
 from astrakpy.exceptions import AstrakError, AstrakServerSideError
 from astrakpy.logging import Logging
 from astrakpy.longpoll.longpoll import LongPoll
