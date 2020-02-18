@@ -2,7 +2,7 @@
 from astrakpy.longpoll.handler import Handler
 from astrakpy import rules
 from astrakpy.exceptions import AstrakServerSideError
-from astrakpy.models.message import Message
+from astrakpy.models import Message
 from astrakpy.logging import Logging
 
 import typing

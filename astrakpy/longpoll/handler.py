@@ -1,4 +1,4 @@
-from astrakpy.models.message import Message
+from astrakpy.models import Message
 import typing
 
 from astrakpy.rules import AbstractRule
