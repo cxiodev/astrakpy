@@ -35,5 +35,5 @@ class TextStarswithRule(AbstractRule):
 standart_rules = {
     TextRule.title: TextRule,
     TextContainsRule.title: TextContainsRule,
-    TextStarswithRule.title: TextStarswithRule
+    TextStarswithRule.title: TextStarswithRule,
 }

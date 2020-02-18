@@ -18,7 +18,9 @@ class AstrakPy:
         self.password = password
         self.token = token
 
-    async def api_method(self, method: str, params: dict = None, fill_token: bool = True) -> dict:
+    async def api_method(
+        self, method: str, params: dict = None, fill_token: bool = True
+    ) -> dict:
         if params is None:
             params = {}
 
@@ -30,9 +32,7 @@ class AstrakPy:
             params.update({"token": self.token})
 
         async with ClientSession(json_serialize=ujson.dumps) as client:
-            async with client.post(
-                self.url + method, data=params
-            ) as rq:
+            async with client.post(self.url + method, data=params) as rq:
                 try:
                     resp = await rq.json()
                     try:
@@ -54,7 +54,9 @@ class AstrakPy:
 
         self.token = (
             await self.api_method(
-                "users/login", {"username": self.login, "password": self.password}, fill_token=False
+                "users/login",
+                {"username": self.login, "password": self.password},
+                fill_token=False,
             )
         )["token"]
 

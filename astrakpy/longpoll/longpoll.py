@@ -18,17 +18,17 @@ class LongPoll:
         for handler in self.message_handlers:
             for rule in handler.rules:
                 if rule in rules.standart_rules:
-                    if (await rules.standart_rules[rule]().check(
+                    if await rules.standart_rules[rule]().check(
                         message=Message(
                             self,
                             text=event["event"]["text"],
                             message_id=event["event"]["message_id"],
                             from_id=event["event"]["from_id"],
                             to_id=event["event"]["to_id"],
-                            created_at=event["event"]["created_at"]
+                            created_at=event["event"]["created_at"],
                         ),
-                        text=handler.rules[rule]
-                    )):
+                        text=handler.rules[rule],
+                    ):
                         return True, handler
             return False, None
 
@@ -43,6 +43,7 @@ class LongPoll:
             handler = Handler(func, **_rules)
             self.message_handlers.append(handler)
             return func
+
         return decorator
 
     async def listen(self):
