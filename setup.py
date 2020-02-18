@@ -15,7 +15,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/triedgriefdev/astrakpy",
-    packages=["astrakpy"],
+    packages=setuptools.find_packages(),
     install_requires=required,
     classifiers=[
         "Programming Language :: Python :: 3",
