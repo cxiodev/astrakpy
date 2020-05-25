@@ -12,7 +12,7 @@ from astrakpy.task_manager import TaskManager
 
 class AstrakPy:
     def __init__(self, login: str = None, password: str = None, token: str = None):
-        self.url = "http://afternoon-dusk-97603.herokuapp.com/"
+        self.url = "https://astrak.me/api"
         self.loop = asyncio.get_event_loop()
         self.login = login
         self.password = password
